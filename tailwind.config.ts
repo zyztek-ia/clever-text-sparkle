@@ -26,7 +26,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					glow: 'hsl(var(--primary-glow))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -52,6 +53,15 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Oceanographic data colors
+				thermal: {
+					warm: 'hsl(var(--temp-warm))',
+					cool: 'hsl(var(--temp-cool))'
+				},
+				current: {
+					strong: 'hsl(var(--current-strong))',
+					mild: 'hsl(var(--current-mild))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -62,6 +72,19 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				}
+			},
+			backgroundImage: {
+				'gradient-ocean': 'var(--gradient-ocean)',
+				'gradient-thermal': 'var(--gradient-thermal)',
+				'gradient-depth': 'var(--gradient-depth)'
+			},
+			boxShadow: {
+				'data': 'var(--shadow-data)',
+				'glow': 'var(--shadow-glow)'
+			},
+			transitionTimingFunction: {
+				'smooth': 'var(--transition-smooth)',
+				'data': 'var(--transition-data)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
