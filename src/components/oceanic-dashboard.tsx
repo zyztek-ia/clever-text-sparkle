@@ -1,3 +1,4 @@
+
 import { DataCard } from "@/components/ui/data-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -67,30 +68,30 @@ export function OceanicDashboard() {
       
       {/* Animated background elements */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-primary-glow/5 rounded-full float-animation" 
+        <div className="absolute top-20 left-10 w-32 h-32 bg-primary/10 rounded-full animate-pulse" 
              style={{ animationDelay: '0s' }} />
-        <div className="absolute top-40 right-20 w-24 h-24 bg-current-mild/5 rounded-full float-animation" 
+        <div className="absolute top-40 right-20 w-24 h-24 bg-blue-500/10 rounded-full animate-pulse" 
              style={{ animationDelay: '2s' }} />
-        <div className="absolute bottom-40 left-1/3 w-40 h-40 bg-thermal-warm/5 rounded-full float-animation" 
+        <div className="absolute bottom-40 left-1/3 w-40 h-40 bg-cyan-500/10 rounded-full animate-pulse" 
              style={{ animationDelay: '4s' }} />
       </div>
 
       {/* Enhanced Hero Section */}
-      <div className="relative h-[70vh] overflow-hidden oceanographic-hero">
+      <div className="relative h-[70vh] overflow-hidden">
         <img 
           src={heroImage} 
           alt="Monitoreo oceanográfico de Ensenada B.C." 
-          className="w-full h-full object-cover transform-3d hover-lift"
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-ocean opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60" />
         
         {/* Status bar */}
         <div className="absolute top-6 right-6 flex items-center gap-4">
-          <div className="glass-card px-4 py-2 flex items-center gap-2">
+          <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-lg px-4 py-2 flex items-center gap-2">
             {isConnected ? (
-              <Wifi className="w-4 h-4 text-current-strong" />
+              <Wifi className="w-4 h-4 text-green-400" />
             ) : (
-              <WifiOff className="w-4 h-4 text-destructive" />
+              <WifiOff className="w-4 h-4 text-red-400" />
             )}
             <span className="text-sm font-medium text-white">{connectionStatus}</span>
           </div>
@@ -99,7 +100,7 @@ export function OceanicDashboard() {
             onClick={handleRefresh}
             variant="secondary"
             size="sm"
-            className="glass-card hover:glass-heavy"
+            className="backdrop-blur-md bg-white/10 border border-white/20 hover:bg-white/20"
             disabled={isLoading}
           >
             <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
@@ -109,28 +110,28 @@ export function OceanicDashboard() {
 
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white max-w-5xl px-6 space-y-6">
-            <h1 className="text-4xl md:text-7xl font-bold mb-6 tracking-tight gradient-text float-animation">
+            <h1 className="text-4xl md:text-7xl font-bold mb-6 tracking-tight animate-fade-in">
               Sistema de Agregación y Predicción de Datos Oceánicos
             </h1>
             
-            <p className="text-xl md:text-2xl mb-8 text-white/90 shimmer-effect">
+            <p className="text-xl md:text-2xl mb-8 text-white/90">
               Monitoreo en tiempo real de Ensenada, B.C. • Datos oceanográficos y climatológicos avanzados
             </p>
             
             <div className="flex flex-wrap gap-3 justify-center">
-              <Badge variant="secondary" className="glass-card text-white border-white/20 hover-lift">
+              <Badge variant="secondary" className="backdrop-blur-md bg-white/10 border border-white/20 text-white">
                 <Satellite className="w-4 h-4 mr-2" />
                 NOAA Satelital
               </Badge>
-              <Badge variant="secondary" className="glass-card text-white border-white/20 hover-lift">
+              <Badge variant="secondary" className="backdrop-blur-md bg-white/10 border border-white/20 text-white">
                 <Fish className="w-4 h-4 mr-2" />
                 Monitoreo de Sardina
               </Badge>
-              <Badge variant="secondary" className="glass-card text-white border-white/20 hover-lift">
+              <Badge variant="secondary" className="backdrop-blur-md bg-white/10 border border-white/20 text-white">
                 <Waves className="w-4 h-4 mr-2" />
                 Corrientes en Tiempo Real
               </Badge>
-              <Badge variant="secondary" className="glass-card text-white border-white/20 hover-lift">
+              <Badge variant="secondary" className="backdrop-blur-md bg-white/10 border border-white/20 text-white">
                 <Activity className="w-4 h-4 mr-2" />
                 IA Predictiva
               </Badge>
@@ -138,15 +139,15 @@ export function OceanicDashboard() {
 
             {/* Live status indicators */}
             <div className="mt-8 flex justify-center gap-6 text-sm">
-              <div className="flex items-center gap-2 glass-card px-3 py-2 rounded-full">
-                <div className="w-2 h-2 bg-current-strong rounded-full animate-pulse" />
+              <div className="flex items-center gap-2 backdrop-blur-md bg-white/10 border border-white/20 px-3 py-2 rounded-full">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
                 <span>Estaciones: {healthyStations}/{totalStations}</span>
               </div>
-              <div className="flex items-center gap-2 glass-card px-3 py-2 rounded-full">
-                <div className="w-2 h-2 bg-primary-glow rounded-full animate-pulse" />
-                <span>Calidad de Datos: {dataQuality.overall === 'good' ? 'Excelente' : 'Limitada'}</span>
+              <div className="flex items-center gap-2 backdrop-blur-md bg-white/10 border border-white/20 px-3 py-2 rounded-full">
+                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+                <span>Calidad de Datos: {dataQuality?.overall === 'good' ? 'Excelente' : 'Limitada'}</span>
               </div>
-              <div className="flex items-center gap-2 glass-card px-3 py-2 rounded-full">
+              <div className="flex items-center gap-2 backdrop-blur-md bg-white/10 border border-white/20 px-3 py-2 rounded-full">
                 <Clock className="w-3 h-3" />
                 <span className="text-xs">{lastUpdateText}</span>
               </div>
@@ -208,10 +209,10 @@ export function OceanicDashboard() {
 
         {/* Weather Information Card */}
         {weatherData && (
-          <Card className="glass-card mb-8 hover-lift">
+          <Card className="backdrop-blur-md bg-white/5 border border-white/10 mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <CloudRain className="w-5 h-5 text-current-mild" />
+                <CloudRain className="w-5 h-5 text-blue-400" />
                 Condiciones Meteorológicas
               </CardTitle>
             </CardHeader>
@@ -240,7 +241,7 @@ export function OceanicDashboard() {
 
         {/* Enhanced Main Dashboard */}
         <Tabs defaultValue="live" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8 glass-card">
+          <TabsList className="grid w-full grid-cols-4 mb-8 backdrop-blur-md bg-white/5 border border-white/10">
             <TabsTrigger value="live" className="flex items-center gap-2 transition-all duration-300">
               <Clock className="w-4 h-4" />
               Datos en Vivo
@@ -298,12 +299,12 @@ export function OceanicDashboard() {
             </div>
 
             {/* Enhanced Monitoring Stations */}
-            <Card className="glass-heavy">
+            <Card className="backdrop-blur-md bg-white/5 border border-white/10">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span>Estaciones de Monitoreo</span>
                   <div className="flex items-center gap-2">
-                    <Badge variant="secondary" className="bg-current-strong/20 text-current-strong">
+                    <Badge variant="secondary" className="bg-green-500/20 text-green-400">
                       {healthyStations} Activas
                     </Badge>
                     <Badge variant="secondary" className="bg-muted/40">
@@ -317,23 +318,23 @@ export function OceanicDashboard() {
                   {stations.map((station) => (
                     <div 
                       key={station.id} 
-                      className="monitoring-station p-4 rounded-lg"
+                      className="backdrop-blur-md bg-white/5 border border-white/10 p-4 rounded-lg"
                     >
                       <div className="flex items-center justify-between mb-3">
                         <h4 className="font-semibold text-foreground">{station.name}</h4>
                         <div className="flex items-center gap-1">
                           {station.status === 'active' ? (
-                            <CheckCircle className="w-4 h-4 text-current-strong" />
+                            <CheckCircle className="w-4 h-4 text-green-400" />
                           ) : (
-                            <AlertTriangle className="w-4 h-4 text-destructive" />
+                            <AlertTriangle className="w-4 h-4 text-red-400" />
                           )}
                           <Badge 
                             variant="secondary" 
-                            className={cn(
-                              "text-xs",
-                              station.status === 'active' && "bg-current-strong/20 text-current-strong",
-                              station.status === 'maintenance' && "bg-destructive/20 text-destructive"
-                            )}
+                            className={
+                              station.status === 'active' 
+                                ? "bg-green-500/20 text-green-400" 
+                                : "bg-red-500/20 text-red-400"
+                            }
                           >
                             {station.status === 'active' ? 'Activa' : 'Mantenimiento'}
                           </Badge>
@@ -346,7 +347,7 @@ export function OceanicDashboard() {
                       
                       <div className="flex flex-wrap gap-1 mb-2">
                         {station.sensors.map((sensor) => (
-                          <Badge key={sensor} variant="outline" className="text-xs glass-card">
+                          <Badge key={sensor} variant="outline" className="text-xs backdrop-blur-md bg-white/5 border border-white/20">
                             {sensor}
                           </Badge>
                         ))}
@@ -391,7 +392,7 @@ export function OceanicDashboard() {
           </TabsContent>
 
           <TabsContent value="satellite" className="space-y-6">
-            <Card className="glass-heavy">
+            <Card className="backdrop-blur-md bg-white/5 border border-white/10">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Satellite className="w-5 h-5" />
@@ -399,16 +400,12 @@ export function OceanicDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-96 thermal-gradient rounded-lg flex items-center justify-center text-white/80 relative overflow-hidden">
+                <div className="h-96 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg flex items-center justify-center text-white/80 relative overflow-hidden">
                   <div className="text-center space-y-4">
                     <Satellite className="w-16 h-16 mx-auto animate-bounce" />
                     <p className="text-lg font-medium">Agregación sistemática de imágenes satelitales</p>
                     <p className="text-sm opacity-80">Integración de múltiples fuentes de datos espaciales</p>
                   </div>
-                  
-                  {/* Scanning line effect */}
-                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse" 
-                       style={{ animation: 'data-flow 3s linear infinite' }} />
                 </div>
               </CardContent>
             </Card>
@@ -416,10 +413,10 @@ export function OceanicDashboard() {
 
           <TabsContent value="sardine" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="glass-heavy">
+              <Card className="backdrop-blur-md bg-white/5 border border-white/10">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Fish className="w-5 h-5 text-current-strong" />
+                    <Fish className="w-5 h-5 text-blue-400" />
                     Población de Sardina Monterrey
                   </CardTitle>
                 </CardHeader>
@@ -443,7 +440,7 @@ export function OceanicDashboard() {
                       trend={sardineData?.reproduction_rate && sardineData.reproduction_rate > 0.85 ? "up" : sardineData?.reproduction_rate && sardineData.reproduction_rate < 0.80 ? "down" : "stable"}
                     />
                     
-                    <div className="glass-card p-4 rounded-lg">
+                    <div className="backdrop-blur-md bg-white/5 border border-white/10 p-4 rounded-lg">
                       <h4 className="font-semibold mb-2 flex items-center gap-2">
                         <Navigation className="w-4 h-4" />
                         Patrón Migratorio Actual
@@ -451,11 +448,11 @@ export function OceanicDashboard() {
                       <div className="flex items-center gap-2">
                         <Badge 
                           variant="secondary" 
-                          className={cn(
-                            sardineData?.migration_pattern === 'north' && "bg-current-strong/20 text-current-strong",
-                            sardineData?.migration_pattern === 'south' && "bg-thermal-cool/20 text-thermal-cool",
-                            sardineData?.migration_pattern === 'stationary' && "bg-muted/40"
-                          )}
+                          className={
+                            sardineData?.migration_pattern === 'north' ? "bg-green-500/20 text-green-400" :
+                            sardineData?.migration_pattern === 'south' ? "bg-blue-500/20 text-blue-400" :
+                            "bg-muted/40"
+                          }
                         >
                           {sardineData?.migration_pattern === 'north' && '↗ Norte'}
                           {sardineData?.migration_pattern === 'south' && '↘ Sur'}
@@ -472,25 +469,17 @@ export function OceanicDashboard() {
                 </CardContent>
               </Card>
 
-              <Card className="glass-heavy">
+              <Card className="backdrop-blur-md bg-white/5 border border-white/10">
                 <CardHeader>
                   <CardTitle>Rutas Migratorias y Hábitat</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-64 ocean-current-flow rounded-lg flex items-center justify-center text-white/80 relative overflow-hidden">
+                  <div className="h-64 bg-gradient-to-br from-teal-900/20 to-blue-900/20 rounded-lg flex items-center justify-center text-white/80 relative overflow-hidden">
                     <div className="text-center space-y-4">
-                      <Fish className="w-16 h-16 mx-auto wave-animation" />
+                      <Fish className="w-16 h-16 mx-auto animate-pulse" />
                       <p className="font-medium">Mapeo de rutas migratorias estacionales</p>
                       <p className="text-sm opacity-80">Análisis de patrones de comportamiento</p>
                     </div>
-                    
-                    {/* Swimming fish effect */}
-                    <div className="absolute top-1/4 left-0 w-4 h-2 bg-white/30 rounded-full float-animation" 
-                         style={{ animationDelay: '0s', animationDuration: '8s' }} />
-                    <div className="absolute top-1/2 left-1/4 w-3 h-1.5 bg-white/25 rounded-full float-animation" 
-                         style={{ animationDelay: '2s', animationDuration: '6s' }} />
-                    <div className="absolute top-3/4 left-1/2 w-5 h-2.5 bg-white/20 rounded-full float-animation" 
-                         style={{ animationDelay: '4s', animationDuration: '10s' }} />
                   </div>
                 </CardContent>
               </Card>
