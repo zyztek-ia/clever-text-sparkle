@@ -29,19 +29,21 @@ export const useOceanographicData = ({
     queryKey: ['oceanographic', 'current'],
     queryFn: oceanographicDataService.getCurrentConditions,
     refetchInterval: enableRealTime ? refreshInterval : false,
-    refetchIntervalInBackground: true,
-    onSuccess: () => {
+    refetchIntervalInBackground: true
+  })
+
+  // Update connection status and last update time
+  useEffect(() => {
+    if (currentConditions) {
       setLastUpdate(new Date())
       setIsConnected(true)
-    },
-    onError: (error) => {
-      console.error('Failed to fetch current conditions:', error)
+    } else if (currentError) {
       setIsConnected(false)
       toast.error('Connection to oceanographic sensors lost', {
         description: 'Switching to cached data...'
       })
     }
-  })
+  }, [currentConditions, currentError])
 
   // Historical data query
   const {
@@ -136,10 +138,10 @@ export const useOceanographicData = ({
   const formatChartData = useCallback((data: OceanographicReading[]) => {
     return data.map(reading => ({
       timestamp: reading.timestamp,
-      temperature: reading.temperature,
-      current_speed: reading.current_speed,
-      depth: reading.depth,
-      wave_height: reading.wave_height
+      temperature: reading.temperature || 0,
+      current_speed: reading.current_speed || 0,
+      depth: reading.depth || 0,
+      wave_height: reading.wave_height || 0
     }))
   }, [])
 
@@ -149,10 +151,10 @@ export const useOceanographicData = ({
   if (currentConditions && chartData.length > 0) {
     const currentPoint = {
       timestamp: currentConditions.timestamp,
-      temperature: currentConditions.temperature,
-      current_speed: currentConditions.current_speed,
-      depth: currentConditions.depth,
-      wave_height: currentConditions.wave_height
+      temperature: currentConditions.temperature || 0,
+      current_speed: currentConditions.current_speed || 0,
+      depth: currentConditions.depth || 0,
+      wave_height: currentConditions.wave_height || 0
     }
     
     // Replace or add the latest point
@@ -212,7 +214,7 @@ export const useMonitoringStations = () => {
       id: 'central',
       name: 'Estación Central',
       location: { lat: 31.8667, lng: -116.6000 },
-      status: 'active',
+      status: 'active' as const,
       lastReading: new Date(),
       sensors: ['temperature', 'current', 'depth', 'salinity']
     },
@@ -220,7 +222,7 @@ export const useMonitoringStations = () => {
       id: 'north',
       name: 'Estación Norte',
       location: { lat: 31.9200, lng: -116.5800 },
-      status: 'active',
+      status: 'active' as const,
       lastReading: new Date(Date.now() - 5 * 60 * 1000),
       sensors: ['temperature', 'current', 'wave']
     },
@@ -228,7 +230,7 @@ export const useMonitoringStations = () => {
       id: 'south',
       name: 'Estación Sur',
       location: { lat: 31.8100, lng: -116.6200 },
-      status: 'maintenance',
+      status: 'maintenance' as const,
       lastReading: new Date(Date.now() - 30 * 60 * 1000),
       sensors: ['temperature', 'depth']
     }

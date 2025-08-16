@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { OceanographicChart } from "@/components/charts/OceanographicChart"
 import { useOceanographicData, useMonitoringStations } from "@/hooks/useOceanographicData"
+import { cn } from "@/lib/utils"
 import { 
   Thermometer, 
   Waves, 
@@ -166,7 +167,7 @@ export function OceanicDashboard() {
             subtitle="Sensor térmico infrarrojo"
             value={currentConditions?.temperature?.toFixed(1) || "--"}
             unit="°C"
-            trend={currentConditions?.temperature > 18 ? "up" : currentConditions?.temperature < 16 ? "down" : "stable"}
+            trend={currentConditions?.temperature && currentConditions.temperature > 18 ? "up" : currentConditions?.temperature && currentConditions.temperature < 16 ? "down" : "stable"}
             icon={<Thermometer className="w-5 h-5" />}
             isActive={true}
           />
@@ -177,7 +178,7 @@ export function OceanicDashboard() {
             subtitle="Doppler acústico"
             value={currentConditions?.current_speed?.toFixed(1) || "--"}
             unit="m/s"
-            trend={currentConditions?.current_speed > 2.5 ? "up" : currentConditions?.current_speed < 1.5 ? "down" : "stable"}
+            trend={currentConditions?.current_speed && currentConditions.current_speed > 2.5 ? "up" : currentConditions?.current_speed && currentConditions.current_speed < 1.5 ? "down" : "stable"}
             icon={<Navigation className="w-5 h-5" />}
             isActive={true}
           />
@@ -199,7 +200,7 @@ export function OceanicDashboard() {
             subtitle="Estimación por IA"
             value={sardineData?.density?.toFixed(0) || "--"}
             unit="kg/km²"
-            trend={sardineData?.reproduction_rate > 0.85 ? "up" : sardineData?.reproduction_rate < 0.80 ? "down" : "stable"}
+            trend={sardineData?.reproduction_rate && sardineData.reproduction_rate > 0.85 ? "up" : sardineData?.reproduction_rate && sardineData.reproduction_rate < 0.80 ? "down" : "stable"}
             icon={<Fish className="w-5 h-5" />}
             isActive={true}
           />
@@ -430,7 +431,7 @@ export function OceanicDashboard() {
                       subtitle="Modelo predictivo basado en IA"
                       value={sardineData?.population_estimate ? (sardineData.population_estimate / 1000000).toFixed(1) : "--"}
                       unit="M individuos"
-                      trend={sardineData?.reproduction_rate > 0.85 ? "up" : "down"}
+                      trend={sardineData?.reproduction_rate && sardineData.reproduction_rate > 0.85 ? "up" : "down"}
                     />
                     
                     <DataCard
@@ -439,7 +440,7 @@ export function OceanicDashboard() {
                       subtitle="Análisis de biomarcadores"
                       value={sardineData?.reproduction_rate ? (sardineData.reproduction_rate * 100).toFixed(0) : "--"}
                       unit="% éxito"
-                      trend={sardineData?.reproduction_rate > 0.85 ? "up" : sardineData?.reproduction_rate < 0.80 ? "down" : "stable"}
+                      trend={sardineData?.reproduction_rate && sardineData.reproduction_rate > 0.85 ? "up" : sardineData?.reproduction_rate && sardineData.reproduction_rate < 0.80 ? "down" : "stable"}
                     />
                     
                     <div className="glass-card p-4 rounded-lg">
