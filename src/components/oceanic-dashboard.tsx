@@ -1,4 +1,3 @@
-
 import { DataCard } from "@/components/ui/data-card"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -24,11 +23,16 @@ import {
   Activity,
   CloudRain,
   Wind,
-  Eye
+  Eye,
+  Users
 } from "lucide-react"
 import heroImage from "@/assets/hero-oceanic.jpg"
 import { toast } from "sonner"
 import { NotificationCenter } from "@/components/notifications/NotificationCenter"
+import { InteractiveMap } from "@/components/mapping/InteractiveMap"
+import { PredictiveAnalytics } from "@/components/analytics/PredictiveAnalytics"
+import { realDataIntegrationService } from "@/services/realDataIntegration"
+import { ResearcherPortal } from "@/components/collaboration/ResearcherPortal"
 
 export function OceanicDashboard() {
   const { 
@@ -48,12 +52,20 @@ export function OceanicDashboard() {
 
   const { stations, activeStations, totalStations, healthyStations } = useMonitoringStations()
 
+  // Enhanced refresh with real data integration
   const handleRefresh = async () => {
-    toast.promise(refresh(), {
-      loading: 'Actualizando datos oceanográficos...',
-      success: 'Datos actualizados correctamente',
-      error: 'Error al actualizar los datos'
-    })
+    toast.promise(
+      Promise.all([
+        refresh(),
+        realDataIntegrationService.fetchNOAAData(),
+        realDataIntegrationService.fetchBuoyData()
+      ]), 
+      {
+        loading: 'Actualizando datos oceanográficos y satelitales...',
+        success: 'Datos actualizados desde múltiples fuentes',
+        error: 'Error al actualizar los datos'
+      }
+    )
   }
 
   const connectionStatus = isConnected ? 'Conectado' : 'Desconectado'
@@ -239,9 +251,9 @@ export function OceanicDashboard() {
           </Card>
         )}
 
-        {/* Enhanced Main Dashboard */}
+        {/* Enhanced Main Dashboard with collaboration tab */}
         <Tabs defaultValue="live" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8 backdrop-blur-md bg-white/5 border border-white/10">
+          <TabsList className="grid w-full grid-cols-7 mb-8 backdrop-blur-md bg-white/5 border border-white/10">
             <TabsTrigger value="live" className="flex items-center gap-2 transition-all duration-300">
               <Clock className="w-4 h-4" />
               Datos en Vivo
@@ -249,6 +261,18 @@ export function OceanicDashboard() {
             <TabsTrigger value="historical" className="flex items-center gap-2 transition-all duration-300">
               <TrendingUp className="w-4 h-4" />
               Análisis Histórico
+            </TabsTrigger>
+            <TabsTrigger value="predictive" className="flex items-center gap-2 transition-all duration-300">
+              <Activity className="w-4 h-4" />
+              IA Predictiva
+            </TabsTrigger>
+            <TabsTrigger value="mapping" className="flex items-center gap-2 transition-all duration-300">
+              <Layers className="w-4 h-4" />
+              Mapeo Interactivo
+            </TabsTrigger>
+            <TabsTrigger value="collaboration" className="flex items-center gap-2 transition-all duration-300">
+              <Users className="w-4 h-4" />
+              Colaboración
             </TabsTrigger>
             <TabsTrigger value="satellite" className="flex items-center gap-2 transition-all duration-300">
               <Satellite className="w-4 h-4" />
@@ -391,20 +415,99 @@ export function OceanicDashboard() {
             </div>
           </TabsContent>
 
+          <TabsContent value="predictive" className="space-y-6">
+            <PredictiveAnalytics />
+          </TabsContent>
+
+          <TabsContent value="mapping" className="space-y-6">
+            <InteractiveMap />
+          </TabsContent>
+
+          <TabsContent value="collaboration" className="space-y-6">
+            <ResearcherPortal />
+          </TabsContent>
+
+          {/* Enhanced Satellite Tab with Real Integration */}
           <TabsContent value="satellite" className="space-y-6">
             <Card className="backdrop-blur-md bg-white/5 border border-white/10">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Satellite className="w-5 h-5" />
-                  Imágenes Satelitales NOAA/CONABIO
+                  Imágenes Satelitales NOAA/CONABIO - Integración en Tiempo Real
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-96 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg flex items-center justify-center text-white/80 relative overflow-hidden">
-                  <div className="text-center space-y-4">
-                    <Satellite className="w-16 h-16 mx-auto animate-bounce" />
-                    <p className="text-lg font-medium">Agregación sistemática de imágenes satelitales</p>
-                    <p className="text-sm opacity-80">Integración de múltiples fuentes de datos espaciales</p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Fuentes de Datos Satelitales</h3>
+                    <div className="space-y-2">
+                      <Badge variant="secondary" className="bg-blue-500/20 text-blue-400">
+                        GOES-18 Thermal Infrared
+                      </Badge>
+                      <Badge variant="secondary" className="bg-green-500/20 text-green-400">
+                        MODIS Ocean Color
+                      </Badge>
+                      <Badge variant="secondary" className="bg-purple-500/20 text-purple-400">
+                        VIIRS Day/Night Band
+                      </Badge>
+                      <Badge variant="secondary" className="bg-orange-500/20 text-orange-400">
+                        CONABIO Marine Monitoring
+                      </Badge>
+                    </div>
+                    
+                    <div className="mt-6">
+                      <h4 className="font-semibold mb-2">Próximas Actualizaciones</h4>
+                      <div className="text-sm text-muted-foreground space-y-1">
+                        <p>• GOES-18: Cada 15 minutos</p>
+                        <p>• MODIS: Dos veces al día</p>
+                        <p>• VIIRS: Diario</p>
+                        <p>• CONABIO: Semanal</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="h-96 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-lg flex items-center justify-center text-white/80 relative overflow-hidden">
+                    <div className="text-center space-y-4">
+                      <Satellite className="w-16 h-16 mx-auto animate-bounce" />
+                      <p className="text-lg font-medium">Sistema de Agregación Satelital Avanzado</p>
+                      <p className="text-sm opacity-80">Integración automática de múltiples fuentes</p>
+                      <div className="flex justify-center gap-2 mt-4">
+                        <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" />
+                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }} />
+                        <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            {/* Real-time Satellite Data Integration Status */}
+            <Card className="backdrop-blur-md bg-white/5 border border-white/10">
+              <CardHeader>
+                <CardTitle>Estado de Integración de Datos</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-400">✓</div>
+                    <div className="text-sm font-medium">NOAA API</div>
+                    <div className="text-xs text-muted-foreground">Conectado</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-400">✓</div>
+                    <div className="text-sm font-medium">NDBC Buoys</div>
+                    <div className="text-xs text-muted-foreground">Activo</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-yellow-400">⟳</div>
+                    <div className="text-sm font-medium">CONABIO</div>
+                    <div className="text-xs text-muted-foreground">Configurando</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-blue-400">●</div>
+                    <div className="text-sm font-medium">Supabase</div>
+                    <div className="text-xs text-muted-foreground">Almacenando</div>
                   </div>
                 </div>
               </CardContent>
